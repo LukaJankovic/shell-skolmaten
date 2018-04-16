@@ -11,11 +11,13 @@ const Clutter = imports.gi.Clutter;
 const Cogl = imports.gi.Cogl;
 const Soup = imports.gi.Soup;
 const ExtensionUtils = imports.misc.extensionUtils;
+const Pango = imports.gi.Pango;
 //const Convenience = Me.imports.convenience;
 
 let parent_container;
+let root_actor;
 let school_food_actor;
-let actor;
+let school_food_text;
 
 function getWeekNumber() {
     var d = new Date();
@@ -36,10 +38,8 @@ function enable() {
 	var dateMenu = Main.panel.statusArea.dateMenu;
 	var parent_container = dateMenu.menu.box.get_children()[0].get_children()[0].get_children()[1].get_children()[2].get_children()[2];
 
-	global.log("bcd "+parent_container.constructor.name);
-	global.log("bcd "+parent_container.get_children());
-
-	actor = new St.Button({ style_class: 'weather-button',
+	//Yes I'm stealing the weather style classes but shh might fix some day
+	root_actor = new St.Button({ style_class: 'weather-button',
                             x_fill: true,
                             can_focus: true });
 
@@ -48,11 +48,20 @@ function enable() {
 
 	school_food_actor.add_child(new St.Label({ style_class: 'weather-header',
                                   x_align: Clutter.ActorAlign.START,
-                                  text: _("Test") }));
+                                  text: _("School Food") }));
 
-	actor.child = school_food_actor;
+	school_food_text = new St.Label({ style_class: 'weather-conditions',
+									  x_align: Clutter.ActorAlign.START });
+	school_food_text.clutter_text.ellipsize = Pango.EllipsizeMode.NONE;
+	school_food_text.clutter_text.line_wrap = true;
 
-	parent_container.add_child(actor);
+	school_food_text.set_text(_("Lorem Ipsum"));
+
+	school_food_actor.add_child(school_food_text);
+
+	root_actor.child = school_food_actor;
+
+	parent_container.add_child(root_actor);
 
     dateMenu.menu.connect('open-state-changed', (menu, isOpen) => {
 		loadFood();
