@@ -1,0 +1,12 @@
+<schemalist gettext-domain="gnome-shell-extensions">
+
+  <schema id="org.gnome.shell.extensions.shell-skolmaten"
+	  path="/org/gnome/shell/extensions/shell-skolmaten/">
+
+    <key name="schoolurl" type="s">
+      <default>""</default>
+      <summary>School URL</summary>
+      <description>URL for the school</description>
+    </key>
+  </schema>
+</schemalist>
