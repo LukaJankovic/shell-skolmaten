@@ -86,5 +86,5 @@ function enable() {
 }
 
 function disable() {
-    image_container.destroy();
+    root_actor.destroy();
 }
