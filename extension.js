@@ -13,10 +13,9 @@ const Soup = imports.gi.Soup;
 const ExtensionUtils = imports.misc.extensionUtils;
 //const Convenience = Me.imports.convenience;
 
-let schedule_indicator;
 let parent_container;
-let image_container;
-let current_hidpi;
+let school_food_actor;
+let actor;
 
 function getWeekNumber() {
     var d = new Date();
@@ -35,10 +34,25 @@ function init() {}
 function enable() {
 
 	var dateMenu = Main.panel.statusArea.dateMenu;
-	var parent_container = dateMenu.menu.box.get_children()[0].get_children()[0].get_children()[1]
+	var parent_container = dateMenu.menu.box.get_children()[0].get_children()[0].get_children()[1].get_children()[2].get_children()[2];
 
-	var label = new St.Label({ text: _("test") });
-	parent_container.add_chil(label);
+	global.log("bcd "+parent_container.constructor.name);
+	global.log("bcd "+parent_container.get_children());
+
+	actor = new St.Button({ style_class: 'weather-button',
+                            x_fill: true,
+                            can_focus: true });
+
+	school_food_actor = new St.BoxLayout({ style_class: 'weather-box',
+                                           vertical: true });
+
+	school_food_actor.add_child(new St.Label({ style_class: 'weather-header',
+                                  x_align: Clutter.ActorAlign.START,
+                                  text: _("Test") }));
+
+	actor.child = school_food_actor;
+
+	parent_container.add_child(actor);
 
     dateMenu.menu.connect('open-state-changed', (menu, isOpen) => {
 		loadFood();

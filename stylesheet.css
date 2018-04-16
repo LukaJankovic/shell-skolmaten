@@ -1,9 +1,8 @@
+.schoolfood-button {
+	width: 100%;
+}
 
-.helloworld-label {
-    font-size: 36px;
-    font-weight: bold;
-    color: #ffffff;
-    background-color: rgba(10,10,10,0.7);
-    border-radius: 5px;
-    padding: .5em;
+.schoolfood-header {
+	text-align: left;
+	width: 100%;
 }
