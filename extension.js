@@ -29,6 +29,23 @@ function getWeekNumber() {
 
 function loadFood() {
 
+	const URL = "https://skolmaten.se/berzeliusskolan/?fmt=json";
+
+	let session = new Soup.SessionAsync();
+	Soup.Session.prototype.add_feature.call(session, new Soup.ProxyResolverDefault());
+
+	let request = Soup.Message.new_from_uri('GET', new Soup.URI(URL));
+
+	session.queue_message(request, ((session, message) => {
+		if (message.status_code == 200) {
+
+			let response_data = JSON.parse(message.response_body.data);
+			let day = new Date().getDay() - 1;
+
+			let string_response = response_data["weeks"][0]["days"][day]["items"].join("\n").replace(/\([^)]*\)/g, "");
+			school_food_text.set_text(_(string_response));
+		}
+	}));
 }
 
 function init() {}
