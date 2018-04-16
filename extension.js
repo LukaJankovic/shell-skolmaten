@@ -12,7 +12,7 @@ const Cogl = imports.gi.Cogl;
 const Soup = imports.gi.Soup;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Pango = imports.gi.Pango;
-//const Convenience = Me.imports.convenience;
+const Convenience = Me.imports.convenience;
 
 let parent_container;
 let root_actor;
