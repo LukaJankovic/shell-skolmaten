@@ -48,10 +48,13 @@ function district_changed() {
 
 function school_changed() {
     let activeItem = schoolbox.get_active();
+	let activeDistrict = districtsbox.get_active();
+	let activeProvince = provincesbox.get_active();
 
     let schoolURL = schools[activeItem]["url"];
 
     schema.set_string("schoolurl", schoolURL);
+    schema.set_string("schoolindex", activeProvince+","+activeDistrict+","+activeItem);
 }
 
 function buildPrefsWidget() {
@@ -74,6 +77,14 @@ function buildPrefsWidget() {
     provincesbox.connect("changed", Lang.bind(this, this.province_changed));
 	districtsbox.connect("changed", Lang.bind(this, this.district_changed));
 	schoolbox.connect("changed", Lang.bind(this, this.school_changed));
+
+	let current_school_index = schema.get_string("schoolindex").split(",");
+
+	if (current_school_index) {
+		provincesbox.set_active(current_school_index[0]);
+		districtsbox.set_active(current_school_index[1]);
+		schoolbox.set_active(current_school_index[2]);
+	}
 
     return rootbox;
 }
