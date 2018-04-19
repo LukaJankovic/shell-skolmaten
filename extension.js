@@ -29,7 +29,11 @@ function getWeekNumber() {
 
 function loadFood() {
 
-	const URL = "https://skolmaten.se/berzeliusskolan/?fmt=json";
+	var _schema = Convenience.getSettings();
+
+	const URL = "https://skolmaten.se"+_schema.get_string("schoolurl")+"?fmt=json";
+
+	global.log("url "+URL);
 
 	let session = new Soup.SessionAsync();
 	Soup.Session.prototype.add_feature.call(session, new Soup.ProxyResolverDefault());

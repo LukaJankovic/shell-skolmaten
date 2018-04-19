@@ -73,6 +73,7 @@ function buildPrefsWidget() {
 
     provincesbox.connect("changed", Lang.bind(this, this.province_changed));
 	districtsbox.connect("changed", Lang.bind(this, this.district_changed));
+	schoolbox.connect("changed", Lang.bind(this, this.school_changed));
 
     return rootbox;
 }
