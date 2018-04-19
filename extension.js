@@ -46,6 +46,8 @@ function loadFood() {
 
 			let string_response = response_data["weeks"][0]["days"][day]["items"].join("\n").replace(/\([^)]*\)/g, "");
 			school_food_text.set_text(_(string_response));
+		} else {
+			school_food_text.set_text(_("Error while loading!"));
 		}
 	}));
 }
@@ -74,7 +76,7 @@ function enable() {
 	school_food_text.clutter_text.ellipsize = Pango.EllipsizeMode.NONE;
 	school_food_text.clutter_text.line_wrap = true;
 
-	school_food_text.set_text(_("Lorem Ipsum"));
+	school_food_text.set_text(_("Loading"));
 
 	school_food_actor.add_child(school_food_text);
 

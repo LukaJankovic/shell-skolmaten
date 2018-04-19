@@ -3,5 +3,7 @@
 	"description": "School food in the date menu",
 	"uuid": "shell-skolmaten@am.alite",
 	"shell-version": ["3.26.2"],
-	"settings-schema": "org.gnome.shell.extensions.shell-skolmaten"
+	"settings-schema": "org.gnome.shell.extensions.shell-skolmaten",
+	"url": "https://github.com/LukaJankovic/shell-skolmaten",
+	"version": 100
 }
