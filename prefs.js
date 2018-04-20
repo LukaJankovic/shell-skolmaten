@@ -14,6 +14,7 @@ var schools;
 var provincesbox;
 var districtsbox;
 var schoolbox;
+var hideswitch;
 
 var schema;
 
@@ -57,6 +58,11 @@ function school_changed() {
     schema.set_string("schoolindex", activeProvince+","+activeDistrict+","+activeItem);
 }
 
+function hide_changed() {
+	log(!hideswitch.get_state());
+	schema.set_boolean("hideonfail", !hideswitch.get_state());
+}
+
 function buildPrefsWidget() {
 
     let buildable = new Gtk.Builder();
@@ -85,6 +91,11 @@ function buildPrefsWidget() {
 		districtsbox.set_active(current_school_index[1]);
 		schoolbox.set_active(current_school_index[2]);
 	}
+
+	//Hide switch
+	hideswitch = buildable.get_object('hide-switch');
+	hideswitch.set_active(schema.get_boolean("hideonfail"))
+	hideswitch.connect("state-set", Lang.bind(this, this.hide_changed));
 
     return rootbox;
 }

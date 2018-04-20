@@ -2,6 +2,13 @@
 
   <schema id="org.gnome.shell.extensions.shell-skolmaten"
 	  path="/org/gnome/shell/extensions/shell-skolmaten/">
+
+    <key name="hideonfail" type="b">
+      <default>true</default>
+      <summary>Hide when no data recieved</summary>
+      <description>Hide when no data recieved</description>
+    </key>
+
     <key name="schoolindex" type="s">
 	    <default>""</default>
 	    <summary>School Index</summary>

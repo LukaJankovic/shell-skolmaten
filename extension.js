@@ -19,6 +19,8 @@ let root_actor;
 let school_food_actor;
 let school_food_text;
 
+var drawn;
+
 function getWeekNumber() {
     var d = new Date();
     d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
@@ -27,35 +29,7 @@ function getWeekNumber() {
     return weekNo;
 }
 
-function loadFood() {
-
-	var _schema = Convenience.getSettings();
-
-	const URL = "https://skolmaten.se"+_schema.get_string("schoolurl")+"?fmt=json";
-
-	let session = new Soup.SessionAsync();
-	Soup.Session.prototype.add_feature.call(session, new Soup.ProxyResolverDefault());
-
-	let request = Soup.Message.new_from_uri('GET', new Soup.URI(URL));
-
-	session.queue_message(request, ((session, message) => {
-		if (message.status_code == 200) {
-
-			let response_data = JSON.parse(message.response_body.data);
-			let day = new Date().getDay() - 1;
-
-			let string_response = response_data["weeks"][0]["days"][day]["items"].join("\n").replace(/\([^)]*\)/g, "");
-			school_food_text.set_text(_(string_response));
-		} else {
-			school_food_text.set_text(_("Error while loading!"));
-		}
-	}));
-}
-
-function init() {}
-
-function enable() {
-
+function draw_actors() {
 	var dateMenu = Main.panel.statusArea.dateMenu;
 	var parent_container = dateMenu.menu.box.get_children()[0].get_children()[0].get_children()[1].get_children()[2].get_children()[2];
 
@@ -84,6 +58,61 @@ function enable() {
 
 	parent_container.add_child(root_actor);
 
+	drawn = true;
+}
+
+function loadFood() {
+
+	let day = new Date().getDay() - 1;
+	global.log("day "+day);
+
+	if ((day => 0) && (day <= 4)) {
+
+		global.log("wat");
+
+		if (drawn == false) {
+			draw_actors();
+		}
+
+		var _schema = Convenience.getSettings();
+
+		const URL = "https://skolmaten.se"+_schema.get_string("schoolurl")+"?fmt=json";
+
+		let session = new Soup.SessionAsync();
+		Soup.Session.prototype.add_feature.call(session, new Soup.ProxyResolverDefault());
+
+		let request = Soup.Message.new_from_uri('GET', new Soup.URI(URL));
+
+		session.queue_message(request, ((session, message) => {
+
+			if (message.status_code == 200) {
+
+				let response_data = JSON.parse(message.response_body.data);
+
+				let string_response = response_data["weeks"][0]["days"][day]["items"].join("\n").replace(/\([^)]*\)/g, "");
+				school_food_text.set_text(_(string_response));
+			} else {
+				school_food_text.set_text(_("Error while loading!"));
+			}
+		}));
+	} else {
+
+		global.log("delet");
+
+		root_actor.destroy();
+		root_actor = null;
+
+		drawn = false;
+	}
+}
+
+function init() {}
+
+function enable() {
+
+	draw_actors();
+
+	var dateMenu = Main.panel.statusArea.dateMenu;
     dateMenu.menu.connect('open-state-changed', (menu, isOpen) => {
 		loadFood();
     });
